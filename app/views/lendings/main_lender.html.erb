@@ -1,0 +1,58 @@
+<a href="/logout">Logout</a>
+
+<h3>Name: <%= @lender.first_name%> <%= @lender.last_name%></h3>
+<h3>Account Balance: $<%= @lender.money%></h3>
+
+<h2>List of people in need of help:</h2>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Need Money For</th>
+    <th>Reason for Loan</th>
+    <th>Amount Needed</th>
+    <th>Amount Raised</th>
+    <th>Action</th>
+  </tr>
+  <% @borrowers.each do |b|%>
+    <% if b.amount > b.raised %>
+      <tr>
+        <td><%=b.first_name%> <%=b.last_name%></td>
+        <td><%=b.reason%></td>
+        <td><%=b.description%></td>
+        <td>$<%=b.amount%></td>
+        <td>$<%=b.raised%></td>
+        <td>
+          <form action="/add/<%= b.id%>" method="POST">
+            <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+            <input type="number" name="amount">
+            <input type="submit" value="Lend">
+          </form>
+        </td>
+      </tr>
+    <% end %>
+  <% end %>
+</table>
+
+
+<h2>List of People you lend money to:</h2>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Need Money For</th>
+    <th>Reason for Loan</th>
+    <th>Amount Needed</th>
+    <th>Amount Raised</th>
+    <th>Amount Lent</th>
+  </tr>
+  <% @lended.each do |b|%>
+      <tr>
+        <td><%=b.first_name%> <%=b.last_name%></td>
+        <td><%=b.reason%></td>
+        <td><%=b.description%></td>
+        <td>$<%=b.amount%></td>
+        <td>$<%=b.raised%></td>
+        <td>$<%=b.t_amount%></td>
+      </tr>
+  <% end %>
+</table>

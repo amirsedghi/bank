@@ -1,0 +1,30 @@
+<h1>Lender</h1>
+
+<form action="/lendings/create" method="POST">
+  <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+  First Name: <input type="text" name="first_name">
+  Last Name: <input type="text" name="last_name">
+  Email: <input type="text" name="email">
+  Password: <input type="password" name="password">
+  Password Comfirmation: <input type="password" name="password_confirmation">
+  Money: <input type="number" name="money">
+  <input type="submit" value="Register">
+</form>
+
+
+<h1>Borrower</h1>
+
+<form action="/borrower/create" method="POST">
+  <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+  First Name: <input type="text" name="first_name">
+  Last Name: <input type="text" name="last_name">
+  Email: <input type="text" name="email">
+  Password: <input type="password" name="password">
+  Password Confirmation: <input type="password" name="password_confirmation">
+  Need Money For: <input type="text" name="reason">
+  Description: <input type="text" name="description">
+  Amount Needed: <input type="number" name="amount">
+  <input type="submit" value="Register">
+</form>
+
+<a href="/lendings/member">Already a member?</a>
