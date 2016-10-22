@@ -93,12 +93,14 @@ class LendingsController < ApplicationController
   def main_lender
     @lender = Lender.find(session[:lender_id])
     @borrowers = Borrower.all
-    @lended = Transaction.joins(:lender).joins(:borrower).where(lender: @lender).select("borrowers.first_name as first_name", "borrowers.last_name as last_name", :reason, :description, "borrowers.amount as amount", "transactions.amount as t_amount", :raised)
+    # @lended = Transaction.joins(:lender).joins(:borrower).where(lender: @lender).select("borrowers.first_name as first_name", "borrowers.last_name as last_name", :reason, :description, "borrowers.amount as amount", "transactions.amount as t_amount", :raised, "sum(transactions.amount) as total").group("borrowers.id, transactions.amount")
+    @lended = Transaction.joins(:lender).joins(:borrower).where(lender: @lender).group("borrowers.id").select("borrowers.first_name as first_name", "borrowers.last_name as last_name", :reason, :description, "borrowers.amount as amount", :raised, "sum(transactions.amount) as total")
+    # @lended.group(:reason).sum("transactions.amount")
   end
 
   def main_borrower
     @borrower = Borrower.find(session[:borrower_id])
-    @list = Transaction.joins(:lender).joins(:borrower).where(borrower: @borrower).select("lenders.first_name as first_name", "lenders.last_name as last_name", "lenders.email as email", "transactions.amount as amount")
+    @list = Transaction.joins(:lender).joins(:borrower).where(borrower: @borrower).group("lenders.id").select("lenders.first_name as first_name", "lenders.last_name as last_name", "lenders.email as email", "sum(transactions.amount) as total")
   end
 
   def logout
